@@ -1,52 +1,29 @@
 // C++ program to calculate the frequency
 // of each word in the given string
 
-#include <bits/stdc++.h>
-using namespace std;
-void printFrequency(string str)
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+typedef std::map<std::string, int> StringIntMap;
+void count_words(std::istream &in, StringIntMap &words)
 {
-	map<string, int> M;
-	string word = "";
-
-	for (int i = 0; i < str.size(); i++) 
-	{
-		if (str[i] == ' ')
-		 {
-		 	if (M.find(word) == M.end())
-		    {
-				M.insert(make_pair(word, 1));
-				word = "";
-			}
-
-			else {
-				M[word]++;
-				word = "";
-			}
-		}
-
-		else
-			word += str[i];
-	}
-
-	if (M.find(word) == M.end())
-		M.insert(make_pair(word, 1));
-
-	else
-		M[word]++;
-
-	for (auto& it : M)
-	 {
-		cout << it.first << " - "
-			<< it.second
-			<< endl;
-	 }
+    std::string text;
+    while (in >> text)
+    {
+        ++words[text];
+    }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-	string str = "Geeks For Geeks";
+    std::ifstream in("file.txt");
+    StringIntMap words_map;
+    count_words(in, words_map);
 
-	printFrequency(str);
-	return 0;
+    for (StringIntMap::iterator it = words_map.begin(); it != words_map.end(); ++it)
+    {
+        std::cout << it->first << " occured " << it->second << std::endl;
+    }
 }
 
